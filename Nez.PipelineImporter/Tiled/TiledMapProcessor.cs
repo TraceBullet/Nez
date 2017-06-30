@@ -1,20 +1,19 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content.Pipeline;
+using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
+using MonoGame.Utilities;
+using Nez.PipelineImporter;
+using Nez.TextureAtlasGenerator;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
-using Ionic.Zlib;
-using Microsoft.Xna.Framework.Content.Pipeline;
-using System.ComponentModel;
-using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
-using Microsoft.Xna.Framework;
-using Nez.TextureAtlasGenerator;
-using Microsoft.Xna.Framework.Graphics;
-using Nez.PipelineImporter;
-
+using CompressionMode = System.IO.Compression.CompressionMode;
 
 namespace Nez.TiledMaps
 {
-	[ContentProcessor( DisplayName = "Tiled Map Processor" )]
+    [ContentProcessor( DisplayName = "Tiled Map Processor" )]
 	public class TiledMapProcessor : ContentProcessor<TmxMap,TmxMap>
 	{
 		public static ContentBuildLogger logger;
@@ -143,7 +142,7 @@ namespace Nez.TiledMaps
 				return new GZipStream( memoryStream, CompressionMode.Decompress );
 
 			if( compressionMode == "zlib" )
-				return new ZlibStream( memoryStream, CompressionMode.Decompress );
+				return new ZlibStream( memoryStream, MonoGame.Utilities.CompressionMode.Decompress );
 
 			return memoryStream;
 		}

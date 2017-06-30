@@ -16,7 +16,6 @@ namespace Nez.TiledMaps
 		const uint FLIPPED_HORIZONTALLY_FLAG = 0x80000000;
 		const uint FLIPPED_DIAGONALLY_FLAG = 0x20000000;
 
-
 		protected override void Write( ContentWriter writer, TmxMap map )
 		{
 			int largestTileWidth = 0, largestTileHeight = 0;

@@ -1,17 +1,14 @@
-﻿using System;
-using Microsoft.Xna.Framework.Content.Pipeline;
+﻿using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
-using System.IO;
-using Ionic.Zlib;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework.Graphics;
-using Nez.Particles;
 using Microsoft.Xna.Framework.Content.Pipeline.Processors;
+using System;
+using System.IO;
+using System.IO.Compression;
 
 
 namespace Nez.ParticleDesignerImporter
 {
-	[ContentProcessor( DisplayName = "Particle Designer Processor" )]
+    [ContentProcessor( DisplayName = "Particle Designer Processor" )]
 	public class ParticleDesignerProcessor : ContentProcessor<ParticleDesignerContent, ParticleDesignerProcessorResult>
 	{
 		public static ContentBuildLogger logger;
