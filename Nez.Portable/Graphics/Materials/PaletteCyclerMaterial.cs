@@ -1,10 +1,12 @@
-﻿namespace Nez
+﻿using Microsoft.Xna.Framework.Graphics;
+
+namespace Nez
 {
 	public class PaletteCyclerMaterial : Material<PaletteCyclerEffect>
 	{
-		public PaletteCyclerMaterial()
+		public PaletteCyclerMaterial(Effect e)
 		{
-			effect = new PaletteCyclerEffect();
+			effect = new PaletteCyclerEffect(e);
 		}
 
 

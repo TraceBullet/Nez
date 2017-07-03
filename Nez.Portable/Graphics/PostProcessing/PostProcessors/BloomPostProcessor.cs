@@ -1,13 +1,9 @@
-﻿using System;
-using Nez;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Nez.Textures;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-
 
 namespace Nez
 {
-	public class BloomPostProcessor : PostProcessor
+    public class BloomPostProcessor : PostProcessor
 	{
 		/// <summary>
 		/// the settings used by the bloom and blur shaders. If changed, you must call setBloomSettings for the changes to take effect.
@@ -55,9 +51,10 @@ namespace Nez
 
 		public override void onAddedToScene()
 		{
-			_bloomExtractEffect = scene.content.loadEffect<Effect>( "bloomExtract", EffectResource.bloomExtractBytes );
-			_bloomCombineEffect = scene.content.loadEffect<Effect>( "bloomCombine", EffectResource.bloomCombineBytes );
-			_gaussianBlurEffect = scene.content.loadNezEffect<GaussianBlurEffect>();
+		    _bloomExtractEffect = scene.content.Load<Effect>("Effects/BloomExtract");
+			_bloomCombineEffect = scene.content.Load<Effect>("Effects/BloomCombine");
+		    _gaussianBlurEffect = new GaussianBlurEffect(scene.content);
+
 
 			_bloomExtractThresholdParam = _bloomExtractEffect.Parameters["_bloomThreshold"];
 

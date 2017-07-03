@@ -102,7 +102,7 @@ namespace Nez
 
 				if( _blurEnabled && _blurEffect == null && scene != null )
 				{
-					_blurEffect = scene.content.loadNezEffect<GaussianBlurEffect>();
+					_blurEffect = new GaussianBlurEffect(scene.content);
 					if( scene.sceneRenderTarget != null )
 						updateBlurEffectDeltas();
 				}
@@ -138,13 +138,13 @@ namespace Nez
 
 		public override void onAddedToScene()
 		{
-			effect = scene.content.loadEffect<Effect>( "spriteLightMultiply", EffectResource.spriteLightMultiplyBytes );
+			effect = scene.content.Load<Effect>( "Effects/spriteLightMultiply");
 			effect.Parameters["_lightTexture"].SetValue( _lightsRenderTexture );
 			effect.Parameters["_multiplicativeFactor"].SetValue( _multiplicativeFactor );
 
 			if( _blurEnabled )
-				_blurEffect = scene.content.loadNezEffect<GaussianBlurEffect>();
-		}
+				_blurEffect = new GaussianBlurEffect(scene.content);
+        }
 
 
 		public override void process( RenderTarget2D source, RenderTarget2D destination )

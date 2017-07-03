@@ -1,10 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework.Graphics;
-
+﻿using Microsoft.Xna.Framework.Graphics;
 
 namespace Nez
 {
-	public class VignettePostProcessor : PostProcessor
+    public class VignettePostProcessor : PostProcessor
 	{
 		public float power
 		{
@@ -48,7 +46,7 @@ namespace Nez
 
 		public override void onAddedToScene()
 		{
-			effect = scene.content.loadEffect<Effect>( "vignette", EffectResource.vignetteBytes );
+		    effect = scene.content.Load<Effect>("Effects/Vignette");
 
 			_powerParam = effect.Parameters["_power"];
 			_radiusParam = effect.Parameters["_radius"];

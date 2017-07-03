@@ -73,17 +73,17 @@ namespace Nez.DeferredLighting
 		PolygonMesh _quadPolygonMesh;
 
 
-		public DeferredLightingRenderer( int renderOrder, int lightLayer, params int[] renderLayers ) : base( renderOrder )
+		public DeferredLightingRenderer(Effect e, Effect ef, int renderOrder, int lightLayer, params int[] renderLayers ) : base( renderOrder )
 		{
 			// make sure we have a workable Material for our lighting system
-			material = new DeferredSpriteMaterial( nullNormalMapTexture );
+			material = new DeferredSpriteMaterial(e, nullNormalMapTexture );
 
 			_lightLayer = lightLayer;
 			Array.Sort( renderLayers );
 			Array.Reverse( renderLayers );
 			this.renderLayers = renderLayers;
 
-			_lightEffect = new DeferredLightEffect();
+			_lightEffect = new DeferredLightEffect(ef);
 
 			// meshes used for light volumes
 			_quadMesh = new QuadMesh( Core.graphicsDevice );

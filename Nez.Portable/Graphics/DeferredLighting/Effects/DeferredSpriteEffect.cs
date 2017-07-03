@@ -1,15 +1,13 @@
-﻿using System;
-using Microsoft.Xna.Framework.Graphics;
-
+﻿using Microsoft.Xna.Framework.Graphics;
 
 namespace Nez.DeferredLighting
 {
-	/// <summary>
-	/// effect used to render sprites that take part in deferred lighting. A normal map is required. The normal map can optionally use the alpha
-	/// channel for self illumination by setitng useNormalAlphaChannelForSelfIllumination to true. Note that you need to turn off premultiplied
-	/// alpha in the Pipeline tool when using the alpha for self illumination!
-	/// </summary>
-	public class DeferredSpriteEffect : Effect
+    /// <summary>
+    /// effect used to render sprites that take part in deferred lighting. A normal map is required. The normal map can optionally use the alpha
+    /// channel for self illumination by setitng useNormalAlphaChannelForSelfIllumination to true. Note that you need to turn off premultiplied
+    /// alpha in the Pipeline tool when using the alpha for self illumination!
+    /// </summary>
+    public class DeferredSpriteEffect : Effect
 	{
 		/// <summary>
 		/// alpha cutoff for the alpha test. defaults to 0.3
@@ -41,7 +39,7 @@ namespace Nez.DeferredLighting
 		EffectParameter _selfIlluminationPowerParam;
 
 
-		public DeferredSpriteEffect() : base( Core.graphicsDevice, EffectResource.deferredSpriteBytes )
+		public DeferredSpriteEffect(Effect e) : base(e)
 		{
 			_normalMapParam = Parameters["_normalMap"];
 			_alphaCutoffParam = Parameters["_alphaCutoff"];

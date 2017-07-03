@@ -36,7 +36,7 @@ namespace Nez
 		EffectParameter _timeParam;
 
 
-		public PaletteCyclerEffect() : base( Core.graphicsDevice, EffectResource.paletteCyclerBytes )
+		public PaletteCyclerEffect(Effect e) : base(e)
 		{
 			_paletteTextureParam = Parameters["_paletteTexture"];
 			_cycleSpeedParam = Parameters["_cycleSpeed"];

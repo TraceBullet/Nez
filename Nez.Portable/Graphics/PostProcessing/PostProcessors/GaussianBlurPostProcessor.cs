@@ -25,7 +25,7 @@ namespace Nez
 		float _renderTargetScale = 1f;
 
 
-		public GaussianBlurPostProcessor( int executionOrder ) : base( executionOrder, new GaussianBlurEffect() )
+		public GaussianBlurPostProcessor( int executionOrder ) : base( executionOrder, new GaussianBlurEffect(null) )
 		{}
 
 

@@ -11,10 +11,10 @@ namespace Nez.DeferredLighting
 		/// DeferredLightingRenderer.nullNormalMapTexture.
 		/// </summary>
 		/// <param name="normalMap">Normal map.</param>
-		public DeferredSpriteMaterial( Texture2D normalMap )
+		public DeferredSpriteMaterial(Effect e, Texture2D normalMap )
 		{
 			blendState = BlendState.Opaque;
-			effect = new DeferredSpriteEffect().setNormalMap( normalMap );
+			effect = new DeferredSpriteEffect(e).setNormalMap( normalMap );
 		}
 
 	}

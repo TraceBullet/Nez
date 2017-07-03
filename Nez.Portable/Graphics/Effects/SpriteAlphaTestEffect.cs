@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-
 
 namespace Nez
 {
-	public class SpriteAlphaTestEffect : Effect
+    public class SpriteAlphaTestEffect : Effect
 	{
 		public enum AlphaTestCompareFunction
 		{
@@ -51,14 +49,14 @@ namespace Nez
 		EffectParameter _alphaTestParam;
 
 
-		public SpriteAlphaTestEffect() : base( Core.graphicsDevice, EffectResource.spriteAlphaTestBytes )
-		{
-			_alphaTestParam = Parameters["_alphaTest"];
-			updateEffectParameter();
-		}
+	    public SpriteAlphaTestEffect(Effect e) : base(e)
+	    {
+	        _alphaTestParam = Parameters["_alphaTest"];
+	        updateEffectParameter();
+	    }
 
 
-		void updateEffectParameter()
+	    void updateEffectParameter()
 		{
 			var value = new Vector3();
 

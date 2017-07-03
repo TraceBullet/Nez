@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 
@@ -75,30 +76,29 @@ namespace Nez
 		EffectParameter _blurWeightsParam;
 		EffectParameter _blurOffsetsParam;
 
+	    public GaussianBlurEffect(ContentManager c) : base(c.Load<Effect>("Effects/GaussianBlur"))
+	    {
+	        _blurWeightsParam = Parameters["_sampleWeights"];
+	        _blurOffsetsParam = Parameters["_sampleOffsets"];
 
-		public GaussianBlurEffect() : base( Core.graphicsDevice, EffectResource.gaussianBlurBytes )
-		{
-			_blurWeightsParam = Parameters["_sampleWeights"];
-			_blurOffsetsParam = Parameters["_sampleOffsets"];
+	        // Look up how many samples our gaussian blur effect supports.
+	        _sampleCount = _blurWeightsParam.Elements.Count;
 
-			// Look up how many samples our gaussian blur effect supports.
-			_sampleCount = _blurWeightsParam.Elements.Count;
+	        // Create temporary arrays for computing our filter settings.
+	        _sampleWeights = new float[_sampleCount];
+	        _verticalSampleOffsets = new Vector2[_sampleCount];
+	        _horizontalSampleOffsets = new Vector2[_sampleCount];
 
-			// Create temporary arrays for computing our filter settings.
-			_sampleWeights = new float[_sampleCount];
-			_verticalSampleOffsets = new Vector2[_sampleCount];
-			_horizontalSampleOffsets = new Vector2[_sampleCount];
+	        // The first sample always has a zero offset.
+	        _verticalSampleOffsets[0] = Vector2.Zero;
+	        _horizontalSampleOffsets[0] = Vector2.Zero;
 
-			// The first sample always has a zero offset.
-			_verticalSampleOffsets[0] = Vector2.Zero;
-			_horizontalSampleOffsets[0] = Vector2.Zero;
-
-			// we can calculate the sample weights just once since they are always the same for horizontal or vertical blur
-			calculateSampleWeights();
-		}
+	        // we can calculate the sample weights just once since they are always the same for horizontal or vertical blur
+	        calculateSampleWeights();
+	    }
 
 
-		/// <summary>
+	    /// <summary>
 		/// prepares the Effect for performing a horizontal blur
 		/// </summary>
 		public void prepareForHorizontalBlur()

@@ -122,7 +122,7 @@ namespace Nez.Shadows
 
 		public override void onAddedToEntity()
 		{
-			_lightEffect = entity.scene.content.loadEffect<Effect>( "polygonLight", EffectResource.polygonLightBytes );
+		    _lightEffect = entity.scene.content.Load<Effect>("Effects/PolygonLight");
 			_lightEffect.Parameters["lightRadius"].SetValue( radius );
 			_visibility = new VisibilityComputer();
 		}

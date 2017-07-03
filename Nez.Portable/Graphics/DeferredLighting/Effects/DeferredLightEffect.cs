@@ -49,7 +49,7 @@ namespace Nez.DeferredLighting
 		#endregion
 
 
-		public DeferredLightEffect() : base( Core.graphicsDevice, EffectResource.deferredLightBytes )
+		public DeferredLightEffect(Effect e) : base(e)
 		{
 			clearGBufferPass = Techniques["ClearGBuffer"].Passes[0];
 			pointLightPass = Techniques["DeferredPointLight"].Passes[0];
