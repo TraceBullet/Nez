@@ -47,7 +47,7 @@ namespace Nez
 			base.onSceneBackBufferSizeChanged( newWidth, newHeight );
 
 			// this is a bit of a hack. we maybe should take the Camera in the constructor
-			if( camera == null )
+			if( camera == null && Core.scene != null )
 				camera = Core.scene.createEntity( "screenspace camera" ).addComponent<Camera>();
 		}
 
