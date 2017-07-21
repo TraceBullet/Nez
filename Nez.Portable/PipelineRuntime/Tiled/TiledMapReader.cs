@@ -1,14 +1,13 @@
-using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Nez.Pipeline.Content;
+using System;
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-
 
 namespace Nez.Tiled
 {
-	public class TiledMapReader : ContentTypeReader<TiledMap>
+    public class TiledMapReader : ContentTypeReader<TiledMap>
 	{
 		protected override TiledMap Read( ContentReader reader, TiledMap existingInstance )
 		{
@@ -47,31 +46,35 @@ namespace Nez.Tiled
 					texture = reader.ContentManager.Load<Texture2D>( textureAssetName );
 				}
 
-				var tileset = tiledMap.createTileset(
-										texture: texture,
-										firstId: reader.ReadInt32(),
-										tileWidth: reader.ReadInt32(),
-										tileHeight: reader.ReadInt32(),
-										isStandardTileset: isStandardTileset,
-										spacing: reader.ReadInt32(),
-										margin: reader.ReadInt32() );
-				readCustomProperties( reader, tileset.properties );
+                TiledTileset tileset = tiledMap.createTileset(
+                                        texture: texture,
+                                        firstId: reader.ReadInt32(),
+                                        tileWidth: reader.ReadInt32(),
+                                        tileHeight: reader.ReadInt32(),
+                                        isStandardTileset: isStandardTileset,
+                                        spacing: reader.ReadInt32(),
+                                        margin: reader.ReadInt32());
+                readCustomProperties(reader, tileset.properties);
 
-				// tiledset tile array
-				var tileCount = reader.ReadInt32();
-				for( var j = 0; j < tileCount; j++ )
-				{
-					var tile = new TiledTilesetTile( reader.ReadInt32(), tiledMap );
+                // tiledset tile array
+                var tileCount = reader.ReadInt32();
+                for (var j = 0; j < tileCount; j++)
+                {
+                    var tile = new TiledTilesetTile( reader.ReadInt32(), tiledMap );
 
-					var tileAnimationFrameCount = reader.ReadInt32();
+                    var tileAnimationFrameCount = reader.ReadInt32();
 					if( tileAnimationFrameCount > 0 )
 						tile.animationFrames = new List<TiledTileAnimationFrame>( tileAnimationFrameCount );
 
 					for( var k = 0; k < tileAnimationFrameCount; k++ )
 						tile.animationFrames.Add( new TiledTileAnimationFrame( reader.ReadInt32(), reader.ReadSingle() ) );
 
-					// image source is optional
-					var isFromImageCollection = reader.ReadBoolean();
+                    var objectGroupCount = reader.ReadInt32();
+                    for (var k = 0; k < objectGroupCount; k++)
+                        readObjectGroup(reader, tile);
+
+                    // image source is optional
+                    var isFromImageCollection = reader.ReadBoolean();
 					if( isFromImageCollection )
 					{
 						var rect = new Rectangle( reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32(), reader.ReadInt32() );
@@ -83,11 +86,13 @@ namespace Nez.Tiled
 					// give the TiledTilesetTile a chance to process and cache any data required
 					tile.processProperties();
 
-					// if this tile is from an image collection and it has no properties there is no need to keep it around since we
-					// already grabbed the image source above
-					if( !( isFromImageCollection && tile.properties.Count == 0 ) )
-						tileset.tiles.Add( tile );
-				}
+                    // if this tile is from an image collection and it has no properties there is no need to keep it around since we
+                    // already grabbed the image source above
+                    if (!isFromImageCollection || tile.properties.Count != 0)
+                    {
+                        tileset.tiles.Add(tile);
+                    }
+                }
 			}
 
 			var layerCount = reader.ReadInt32();
@@ -97,10 +102,9 @@ namespace Nez.Tiled
 				readCustomProperties( reader, layer.properties );
 			}
 
-
-			var objectGroupCount = reader.ReadInt32();
-			for( var i = 0; i < objectGroupCount; i++ )
-				readObjectGroup( reader, tiledMap );
+			var mapObjectGroupCount = reader.ReadInt32();
+		    for (var i = 0; i < mapObjectGroupCount; i++)
+		        readObjectGroup(reader, tiledMap);
 
 			return tiledMap;
 		}
@@ -201,6 +205,65 @@ namespace Nez.Tiled
 			return tileMap.createImageLayer( layerName, texture );
 		}
 
+	    static void readObjectGroup(ContentReader reader, TiledTilesetTile tile)
+	    {
+	        var objectGroup = new TiledObjectGroup(
+                reader.ReadString(), reader.ReadColor(), reader.ReadBoolean(), reader.ReadSingle());
+            readCustomProperties(reader, objectGroup.properties);
+            readObjectsIntoGroup(reader, objectGroup);
+	        tile.objectGroup = objectGroup;
+	    }
+
+	    static void readObjectsIntoGroup(ContentReader reader, TiledObjectGroup objectGroup)
+	    {
+            var objectCount = reader.ReadInt32();
+            objectGroup.objects = new TiledObject[objectCount];
+            for (var i = 0; i < objectCount; i++)
+            {
+                var obj = new TiledObject()
+                {
+                    gid = reader.ReadInt32(),
+                    name = reader.ReadString(),
+                    type = reader.ReadString(),
+                    x = reader.ReadInt32(),
+                    y = reader.ReadInt32(),
+                    width = reader.ReadInt32(),
+                    height = reader.ReadInt32(),
+                    rotation = reader.ReadInt32(),
+                    visible = reader.ReadBoolean()
+                };
+
+                var tiledObjectType = reader.ReadString();
+                if (tiledObjectType == "ellipse")
+                {
+                    // ellipse has no extra props
+                    obj.tiledObjectType = TiledObject.TiledObjectType.Ellipse;
+                }
+                else if (tiledObjectType == "image")
+                {
+                    obj.tiledObjectType = TiledObject.TiledObjectType.Image;
+                    throw new NotImplementedException("Image objects are not yet implemented");
+                }
+                else if (tiledObjectType == "polygon")
+                {
+                    obj.tiledObjectType = TiledObject.TiledObjectType.Polygon;
+                    obj.polyPoints = readVector2Array(reader);
+                }
+                else if (tiledObjectType == "polyline")
+                {
+                    obj.tiledObjectType = TiledObject.TiledObjectType.Polyline;
+                    obj.polyPoints = readVector2Array(reader);
+                }
+                else
+                {
+                    obj.tiledObjectType = TiledObject.TiledObjectType.None;
+                }
+                
+                obj.objectType = reader.ReadString();
+                readCustomProperties(reader, obj.properties);
+                objectGroup.objects[i] = obj;
+            }
+        }
 
 		static TiledObjectGroup readObjectGroup( ContentReader reader, TiledMap tiledMap )
 		{
@@ -208,58 +271,8 @@ namespace Nez.Tiled
 				reader.ReadString(), reader.ReadColor(), reader.ReadBoolean(), reader.ReadSingle() );
 
 			readCustomProperties( reader, objectGroup.properties );
-
-			var objectCount = reader.ReadInt32();
-			objectGroup.objects = new TiledObject[objectCount];
-			for( var i = 0; i < objectCount; i++ )
-			{
-				var obj = new TiledObject()
-				{
-					gid = reader.ReadInt32(),
-					name = reader.ReadString(),
-					type = reader.ReadString(),
-					x = reader.ReadInt32(),
-					y = reader.ReadInt32(),
-					width = reader.ReadInt32(),
-					height = reader.ReadInt32(),
-					rotation = reader.ReadInt32(),
-					visible = reader.ReadBoolean()
-				};
-
-				var tiledObjectType = reader.ReadString();
-				if( tiledObjectType == "ellipse" )
-				{
-					// ellipse has no extra props
-					obj.tiledObjectType = TiledObject.TiledObjectType.Ellipse;
-				}
-				else if( tiledObjectType == "image" )
-				{
-					obj.tiledObjectType = TiledObject.TiledObjectType.Image;
-					throw new NotImplementedException( "Image objects are not yet implemented" );
-				}
-				else if( tiledObjectType == "polygon" )
-				{
-					obj.tiledObjectType = TiledObject.TiledObjectType.Polygon;
-					obj.polyPoints = readVector2Array( reader );
-				}
-				else if( tiledObjectType == "polyline" )
-				{
-					obj.tiledObjectType = TiledObject.TiledObjectType.Polyline;
-					obj.polyPoints = readVector2Array( reader );
-				}
-				else
-				{
-					obj.tiledObjectType = TiledObject.TiledObjectType.None;
-				}
-
-				obj.objectType = reader.ReadString();
-
-				readCustomProperties( reader, obj.properties );
-
-				objectGroup.objects[i] = obj;
-			}
-
-			return objectGroup;
+		    readObjectsIntoGroup(reader, objectGroup);
+            return objectGroup;
 		}
 
 

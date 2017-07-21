@@ -14,12 +14,13 @@ namespace Nez.Tiled
 		public readonly TiledMap tiledMap;
 		public List<TiledTileAnimationFrame> animationFrames;
 		public Dictionary<string, string> properties = new Dictionary<string, string>();
+	    public TiledObjectGroup objectGroup;
 
-		/// <summary>
-		/// returns the value of an "nez:isDestructable" property if present in the properties dictionary
-		/// </summary>
-		/// <value><c>true</c> if is destructable; otherwise, <c>false</c>.</value>
-		public bool isDestructable;
+        /// <summary>
+        /// returns the value of an "nez:isDestructable" property if present in the properties dictionary
+        /// </summary>
+        /// <value><c>true</c> if is destructable; otherwise, <c>false</c>.</value>
+        public bool isDestructable;
 
 		/// <summary>
 		/// returns the value of a "nez:isSlope" property if present in the properties dictionary
@@ -51,8 +52,7 @@ namespace Nez.Tiled
 			this.tiledMap = tiledMap;
 		}
 
-
-		internal void processProperties()
+        internal void processProperties()
 		{
 			string value;
 			if( properties.TryGetValue( "nez:isDestructable", out value ) )
