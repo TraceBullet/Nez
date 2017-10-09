@@ -133,8 +133,8 @@ namespace Nez
 					var topLeft = screenToWorldPoint( new Vector2( Core.graphicsDevice.Viewport.X + _inset.left, Core.graphicsDevice.Viewport.Y + _inset.top ) );
 					var bottomRight = screenToWorldPoint( new Vector2( Core.graphicsDevice.Viewport.X + Core.graphicsDevice.Viewport.Width - _inset.right, Core.graphicsDevice.Viewport.Y + Core.graphicsDevice.Viewport.Height - _inset.bottom ) );
 
-					if ( entity.transform.rotation != 0 )
-					{
+                    if (entity != null && entity.transform.rotation != 0)
+                    {
 						// special care for rotated bounds. we need to find our absolute min/max values and create the bounds from that
 						var topRight = screenToWorldPoint( new Vector2( Core.graphicsDevice.Viewport.X + Core.graphicsDevice.Viewport.Width - _inset.right, Core.graphicsDevice.Viewport.Y + _inset.top ) );
 						var bottomLeft = screenToWorldPoint( new Vector2( Core.graphicsDevice.Viewport.X + _inset.left, Core.graphicsDevice.Viewport.Y + Core.graphicsDevice.Viewport.Height - _inset.bottom ) );
@@ -300,7 +300,7 @@ namespace Nez
 
 		protected virtual void updateMatrixes()
 		{
-			if( !_areMatrixesDirty )
+			if( !_areMatrixesDirty || entity == null)
 				return;
 
 			Matrix2D tempMat;
