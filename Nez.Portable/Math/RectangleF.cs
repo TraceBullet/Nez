@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using Microsoft.Xna.Framework;
 
 
@@ -277,91 +278,99 @@ namespace Nez
 		}
 
 
-		/// <summary>
-		/// Gets whether or not the provided coordinates lie within the bounds of this <see cref="RectangleF"/>.
-		/// </summary>
-		/// <param name="x">The x coordinate of the point to check for containment.</param>
-		/// <param name="y">The y coordinate of the point to check for containment.</param>
-		/// <returns><c>true</c> if the provided coordinates lie inside this <see cref="RectangleF"/>; <c>false</c> otherwise.</returns>
-		public bool contains( int x, int y )
+        /// <summary>
+        /// Gets whether or not the provided coordinates lie within the bounds of this <see cref="RectangleF"/>.
+        /// </summary>
+        /// <param name="x">The x coordinate of the point to check for containment.</param>
+        /// <param name="y">The y coordinate of the point to check for containment.</param>
+        /// <returns><c>true</c> if the provided coordinates lie inside this <see cref="RectangleF"/>; <c>false</c> otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool contains( int x, int y )
 		{
 			return ( ( ( ( this.x <= x ) && ( x < ( this.x + this.width ) ) ) && ( this.y <= y ) ) && ( y < ( this.y + this.height ) ) );
 		}
 
 
-		/// <summary>
-		/// Gets whether or not the provided coordinates lie within the bounds of this <see cref="RectangleF"/>.
-		/// </summary>
-		/// <param name="x">The x coordinate of the point to check for containment.</param>
-		/// <param name="y">The y coordinate of the point to check for containment.</param>
-		/// <returns><c>true</c> if the provided coordinates lie inside this <see cref="RectangleF"/>; <c>false</c> otherwise.</returns>
-		public bool contains( float x, float y )
+        /// <summary>
+        /// Gets whether or not the provided coordinates lie within the bounds of this <see cref="RectangleF"/>.
+        /// </summary>
+        /// <param name="x">The x coordinate of the point to check for containment.</param>
+        /// <param name="y">The y coordinate of the point to check for containment.</param>
+        /// <returns><c>true</c> if the provided coordinates lie inside this <see cref="RectangleF"/>; <c>false</c> otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool contains( float x, float y )
 		{
 			return ( ( ( ( this.x <= x ) && ( x < ( this.x + this.width ) ) ) && ( this.y <= y ) ) && ( y < ( this.y + this.height ) ) );
 		}
 
 
-		/// <summary>
-		/// Gets whether or not the provided <see cref="Point"/> lies within the bounds of this <see cref="RectangleF"/>.
-		/// </summary>
-		/// <param name="value">The coordinates to check for inclusion in this <see cref="RectangleF"/>.</param>
-		/// <returns><c>true</c> if the provided <see cref="Point"/> lies inside this <see cref="RectangleF"/>; <c>false</c> otherwise.</returns>
-		public bool contains( Point value )
+        /// <summary>
+        /// Gets whether or not the provided <see cref="Point"/> lies within the bounds of this <see cref="RectangleF"/>.
+        /// </summary>
+        /// <param name="value">The coordinates to check for inclusion in this <see cref="RectangleF"/>.</param>
+        /// <returns><c>true</c> if the provided <see cref="Point"/> lies inside this <see cref="RectangleF"/>; <c>false</c> otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool contains( Point value )
 		{
 			return ( ( ( ( this.x <= value.X ) && ( value.X < ( this.x + this.width ) ) ) && ( this.y <= value.Y ) ) && ( value.Y < ( this.y + this.height ) ) );
 		}
 
 
-		/// <summary>
-		/// Gets whether or not the provided <see cref="Point"/> lies within the bounds of this <see cref="RectangleF"/>.
-		/// </summary>
-		/// <param name="value">The coordinates to check for inclusion in this <see cref="RectangleF"/>.</param>
-		/// <param name="result"><c>true</c> if the provided <see cref="Point"/> lies inside this <see cref="RectangleF"/>; <c>false</c> otherwise. As an output parameter.</param>
-		public void contains( ref Point value, out bool result )
+        /// <summary>
+        /// Gets whether or not the provided <see cref="Point"/> lies within the bounds of this <see cref="RectangleF"/>.
+        /// </summary>
+        /// <param name="value">The coordinates to check for inclusion in this <see cref="RectangleF"/>.</param>
+        /// <param name="result"><c>true</c> if the provided <see cref="Point"/> lies inside this <see cref="RectangleF"/>; <c>false</c> otherwise. As an output parameter.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void contains( ref Point value, out bool result )
 		{
 			result = ( ( ( ( this.x <= value.X ) && ( value.X < ( this.x + this.width ) ) ) && ( this.y <= value.Y ) ) && ( value.Y < ( this.y + this.height ) ) );
 		}
 
 
-		/// <summary>
-		/// Gets whether or not the provided <see cref="Vector2"/> lies within the bounds of this <see cref="RectangleF"/>.
-		/// </summary>
-		/// <param name="value">The coordinates to check for inclusion in this <see cref="RectangleF"/>.</param>
-		/// <returns><c>true</c> if the provided <see cref="Vector2"/> lies inside this <see cref="RectangleF"/>; <c>false</c> otherwise.</returns>
-		public bool contains( Vector2 value )
+        /// <summary>
+        /// Gets whether or not the provided <see cref="Vector2"/> lies within the bounds of this <see cref="RectangleF"/>.
+        /// </summary>
+        /// <param name="value">The coordinates to check for inclusion in this <see cref="RectangleF"/>.</param>
+        /// <returns><c>true</c> if the provided <see cref="Vector2"/> lies inside this <see cref="RectangleF"/>; <c>false</c> otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool contains( Vector2 value )
 		{
 			return ( ( ( ( this.x <= value.X ) && ( value.X < ( this.x + this.width ) ) ) && ( this.y <= value.Y ) ) && ( value.Y < ( this.y + this.height ) ) );
 		}
 
 
-		/// <summary>
-		/// Gets whether or not the provided <see cref="Vector2"/> lies within the bounds of this <see cref="RectangleF"/>.
-		/// </summary>
-		/// <param name="value">The coordinates to check for inclusion in this <see cref="RectangleF"/>.</param>
-		/// <param name="result"><c>true</c> if the provided <see cref="Vector2"/> lies inside this <see cref="RectangleF"/>; <c>false</c> otherwise. As an output parameter.</param>
-		public void contains( ref Vector2 value, out bool result )
+        /// <summary>
+        /// Gets whether or not the provided <see cref="Vector2"/> lies within the bounds of this <see cref="RectangleF"/>.
+        /// </summary>
+        /// <param name="value">The coordinates to check for inclusion in this <see cref="RectangleF"/>.</param>
+        /// <param name="result"><c>true</c> if the provided <see cref="Vector2"/> lies inside this <see cref="RectangleF"/>; <c>false</c> otherwise. As an output parameter.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void contains( ref Vector2 value, out bool result )
 		{
 			result = ( ( ( ( this.x <= value.X ) && ( value.X < ( this.x + this.width ) ) ) && ( this.y <= value.Y ) ) && ( value.Y < ( this.y + this.height ) ) );
 		}
 
 
-		/// <summary>
-		/// Gets whether or not the provided <see cref="RectangleF"/> lies within the bounds of this <see cref="RectangleF"/>.
-		/// </summary>
-		/// <param name="value">The <see cref="RectangleF"/> to check for inclusion in this <see cref="RectangleF"/>.</param>
-		/// <returns><c>true</c> if the provided <see cref="RectangleF"/>'s bounds lie entirely inside this <see cref="RectangleF"/>; <c>false</c> otherwise.</returns>
-		public bool contains( RectangleF value )
+        /// <summary>
+        /// Gets whether or not the provided <see cref="RectangleF"/> lies within the bounds of this <see cref="RectangleF"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="RectangleF"/> to check for inclusion in this <see cref="RectangleF"/>.</param>
+        /// <returns><c>true</c> if the provided <see cref="RectangleF"/>'s bounds lie entirely inside this <see cref="RectangleF"/>; <c>false</c> otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool contains( RectangleF value )
 		{
 			return ( ( ( ( this.x <= value.x ) && ( ( value.x + value.width ) <= ( this.x + this.width ) ) ) && ( this.y <= value.y ) ) && ( ( value.y + value.height ) <= ( this.y + this.height ) ) );
 		}
 
 
-		/// <summary>
-		/// Gets whether or not the provided <see cref="RectangleF"/> lies within the bounds of this <see cref="RectangleF"/>.
-		/// </summary>
-		/// <param name="value">The <see cref="RectangleF"/> to check for inclusion in this <see cref="RectangleF"/>.</param>
-		/// <param name="result"><c>true</c> if the provided <see cref="RectangleF"/>'s bounds lie entirely inside this <see cref="RectangleF"/>; <c>false</c> otherwise. As an output parameter.</param>
-		public void contains( ref RectangleF value, out bool result )
+        /// <summary>
+        /// Gets whether or not the provided <see cref="RectangleF"/> lies within the bounds of this <see cref="RectangleF"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="RectangleF"/> to check for inclusion in this <see cref="RectangleF"/>.</param>
+        /// <param name="result"><c>true</c> if the provided <see cref="RectangleF"/>'s bounds lie entirely inside this <see cref="RectangleF"/>; <c>false</c> otherwise. As an output parameter.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void contains( ref RectangleF value, out bool result )
 		{
 			result = ( ( ( ( this.x <= value.x ) && ( ( value.x + value.width ) <= ( this.x + this.width ) ) ) && ( this.y <= value.y ) ) && ( ( value.y + value.height ) <= ( this.y + this.height ) ) );
 		}
