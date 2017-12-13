@@ -102,7 +102,7 @@ namespace Nez
 			_tempTriggerList.Clear();
 
 			// also call it for the collider we moved onto
-			collisionPair.second.entity.getComponents( _tempTriggerList );
+		    collisionPair.second.entity?.getComponents(_tempTriggerList);
 			for( var i = 0; i < _tempTriggerList.Count; i++ )
 			{
 				if( isEntering )
