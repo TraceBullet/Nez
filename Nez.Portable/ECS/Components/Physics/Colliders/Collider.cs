@@ -331,16 +331,39 @@ namespace Nez
 			return false;
 		}
 
+	    public bool collidesWithAnyExcept(Collider exceptCollider, out CollisionResult result)
+	    {
+	        result = new CollisionResult();
 
-		/// <summary>
-		/// checks to see if this Collider with motion applied (delta movement vector) collides with any collider. If it does, true will be
-		/// returned and result will be populated with collision data. Motion will be set to the maximum distance the Collider can travel
-		/// before colliding.
-		/// </summary>
-		/// <returns><c>true</c>, if with was collidesed, <c>false</c> otherwise.</returns>
-		/// <param name="motion">Motion.</param>
-		/// <param name="result">Result.</param>
-		public bool collidesWithAny( ref Vector2 motion, out CollisionResult result )
+	        // fetch anything that we might collide with at our new position
+	        var neighbors = Physics.boxcastBroadphaseExcludingSelf(this, collidesWithLayers);
+
+	        foreach (var neighbor in neighbors)
+	        {
+	            if (neighbor == exceptCollider)
+	                continue;
+
+	            // skip triggers
+	            if (neighbor.isTrigger)
+	                continue;
+
+	            if (collidesWith(neighbor, out result))
+	                return true;
+	        }
+
+	        return false;
+	    }
+
+
+        /// <summary>
+        /// checks to see if this Collider with motion applied (delta movement vector) collides with any collider. If it does, true will be
+        /// returned and result will be populated with collision data. Motion will be set to the maximum distance the Collider can travel
+        /// before colliding.
+        /// </summary>
+        /// <returns><c>true</c>, if with was collidesed, <c>false</c> otherwise.</returns>
+        /// <param name="motion">Motion.</param>
+        /// <param name="result">Result.</param>
+        public bool collidesWithAny( ref Vector2 motion, out CollisionResult result )
 		{
 			result = new CollisionResult();
 
