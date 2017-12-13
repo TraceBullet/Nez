@@ -66,10 +66,11 @@ namespace Nez
 
 		internal BitSet componentBits;
 
-		/// <summary>
-		/// flag indicating if destroy was called on this Entity
-		/// </summary>
-		internal bool _isDestroyed;
+        /// <summary>
+        /// flag indicating if destroy was called on this Entity
+        /// </summary>
+        internal bool _isDestroyed;
+        public bool IsDestroyed => _isDestroyed;
 
 		int _tag = 0;
 		bool _enabled = true;
