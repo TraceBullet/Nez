@@ -40,7 +40,7 @@ namespace Nez
 			get { return _maxSupportedGamePads; }
 			set
 			{
-				_maxSupportedGamePads = Mathf.clamp( value, 1, 4 );
+				_maxSupportedGamePads = Mathf.clamp( value, 1, GamePad.MaximumGamePadCount );
 				gamePads = new GamePadData[_maxSupportedGamePads];
 				for( var i = 0; i < _maxSupportedGamePads; i++ )
 					gamePads[i] = new GamePadData( (PlayerIndex)i );
@@ -257,6 +257,54 @@ namespace Nez
 			{
 				return _currentMouseState.MiddleButton == ButtonState.Released && _previousMouseState.MiddleButton == ButtonState.Pressed;
 			}
+		}
+
+		/// <summary>
+		/// only true if down this frame
+		/// </summary>
+		public static bool firstExtendedMouseButtonPressed
+		{
+			get { return _currentMouseState.XButton1 == ButtonState.Pressed && _previousMouseState.XButton1 == ButtonState.Released; }
+		}
+
+		/// <summary>
+		/// true while the button is down
+		/// </summary>
+		public static bool firstExtendedMouseButtonDown
+		{
+			get { return _currentMouseState.XButton1 == ButtonState.Pressed; }
+		}
+
+		/// <summary>
+		/// true only the frame the button is released
+		/// </summary>
+		public static bool firstExtendedMouseButtonReleased
+		{
+			get { return _currentMouseState.XButton1 == ButtonState.Released && _previousMouseState.XButton1 == ButtonState.Pressed; }
+		}
+
+		/// <summary>
+		/// only true if down this frame
+		/// </summary>
+		public static bool secondExtendedMouseButtonPressed
+		{
+			get { return _currentMouseState.XButton2 == ButtonState.Pressed && _previousMouseState.XButton2 == ButtonState.Released; }
+		}
+
+		/// <summary>
+		/// true while the button is down
+		/// </summary>
+		public static bool secondExtendedMouseButtonDown
+		{
+			get { return _currentMouseState.XButton2 == ButtonState.Pressed; }
+		}
+
+		/// <summary>
+		/// true only the frame the button is released
+		/// </summary>
+		public static bool secondExtendedMouseButtonReleased
+		{
+			get { return _currentMouseState.XButton2 == ButtonState.Released && _previousMouseState.XButton2 == ButtonState.Pressed; }
 		}
 
 		/// <summary>
